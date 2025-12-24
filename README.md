@@ -74,12 +74,12 @@ smart_browser/<br>
 Edit `config.py`:
 ```python
 PROFILES = {
-
+    "vpn": "Profile 2",
+    "no_vpn": "Default"
 }
-
-
-⚠️ **Folder names must exactly match Chrome’s actual profile folders (e.g., Default, Profile 1, Profile 2).
-You can run profiles.py to list your existing profiles programmatically.**
+```
+⚠️ **Folder names must exactly match Chrome’s actual profile folders (e.g., Default, Profile 1, Profile 2).**
+**You can run profiles.py to list your existing profiles programmatically.**
 
 ---
 
@@ -90,12 +90,7 @@ python main.py google
 Behavior examples:
 
 InputOutcomegithub.comOpens in VPN profile (blocked)example.irOpens in No-VPN profile (local)googlePerforms Google search
-## 📦 Build EXE (Production)
-```bash
-pip install pyinstaller
-pyinstaller --onefile --noconsole main.py
-Move the generated dist\main.exe to a permanent location, e.g.:
-textC:\SmartBrowser\SmartBrowser.exe
+
 ## 🌍 Set as Default Browser (Windows)
 
 1. Open Settings → Apps → Default apps
