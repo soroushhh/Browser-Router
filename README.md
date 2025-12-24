@@ -1,189 +1,136 @@
-SmartBrowser
+# SmartBrowser
 
-SmartBrowser is a lightweight Windows tool that automatically opens websites in the correct Chrome profile (VPN or No-VPN) based on real network reachability. Designed for environments with restricted access or network blocks (e.g., in Iran), it intelligently routes traffic without hardcoding domains.
+**SmartBrowser** is a lightweight Windows tool that automatically opens websites in the correct **Chrome profile** (VPN or No-VPN) based on real network reachability. It’s ideal for environments with restricted access, where some sites require VPN and others work best without it.
 
-🌟 Features
+---
 
-Automatic routing
+## 🌟 Features
 
-Blocked sites → VPN profile
+- **Automatic routing**
+  - Blocked sites → VPN profile
+  - Local sites → No-VPN profile
+- **Network-aware**
+  - Real TCP reachability tests
+  - No static domain lists
+- **Chrome profile support**
+  - Keeps Google account, passwords, bookmarks, and extensions separate per profile
+- **Fast & cached**
+  - Routing decisions cached with TTL for instant performance
+- **Search-friendly**
+  - Single words → Google search
+  - Domains → direct navigation
+- **Windows integration**
+  - Can be set as the default browser
+- **Safe & reversible**
+  - No Chrome hacks, no cookie sharing, no registry changes
 
-Local sites → No-VPN profile
+---
 
-Network-aware
+## 🧠 How It Works
 
-Real TCP reachability test
+ User clicks a link
+<br> &emsp;&emsp;&emsp;    ↓
+<br> SmartBrowser.exe
+<br> &emsp;&emsp;&emsp;    ↓
+<br> Normalize input (URL or search)
+<br> &emsp;&emsp;&emsp;    ↓
+<br> Check cache
+<br> &emsp;&emsp;&emsp;     ↓
+<br> Network reachability test
+<br> &emsp;&emsp;&emsp;    ↓
+<br> Decide profile: VPN or No-VPN
+<br> &emsp;&emsp;&emsp;    ↓
+<br> Launch Chrome with correct profile text
 
-No static domain lists
+---
 
-Chrome profile support
+## 📂 Project Structure
+smart_browser/<br>
+├── main.py<br>
+├── config.py<br>
+├── utils.py<br>
+├── network.py<br>
+├── decision.py<br>
+├── launcher.py<br>
+├── cache.py<br>
+├── profiles.py<br>
+├── route_cache.json<br>
+├── README.md<br>
 
-Keeps Google account, passwords, bookmarks, and extensions
+---
 
-Fast & cached
+## ⚙️ Requirements
 
-Routing decisions cached with TTL for instant performance
+- Python 3.10+ (for development)  
+- Windows 10+  
+- Google Chrome with **two profiles**:
+  - One with VPN extension enabled  
+  - One without VPN extension
 
-Search-friendly
+---
 
-Single words → Google search
+## 🔧 Configuration
 
-Domains → direct navigation
-
-Windows integration
-
-Can be set as the default browser
-
-Safe & reversible
-
-No Chrome hacks, no cookie sharing, no registry changes
-
-🧠 How It Works
-User clicks a link
-        ↓
-SmartBrowser.exe
-        ↓
-Normalize input (URL or search)
-        ↓
-Check cache
-        ↓
-Network reachability test
-        ↓
-Decide profile: VPN or No-VPN
-        ↓
-Launch Chrome with correct profile
-
-📂 Project Structure
-smart_browser/
-├── main.py            # Entry point
-├── config.py          # Chrome & profile configuration
-├── utils.py           # Input normalization
-├── network.py         # Network reachability test
-├── decision.py        # Routing decision engine
-├── launcher.py        # Chrome launcher
-├── cache.py           # Routing cache
-├── profiles.py        # Profile discovery helper
-├── route_cache.json   # Runtime cache (ignored by git)
-├── README.md          # This file
-
-⚙️ Requirements
-
-Python 3.10+ (for development)
-
-Windows 10+
-
-Google Chrome with two profiles:
-
-One with VPN extension enabled
-
-One without VPN extension
-
-🔧 Configuration
-
-config.py example:
-
+Edit `config.py`:
+```python
 PROFILES = {
-    "vpn": "Profile 2",
-    "no_vpn": "Default"
+
 }
 
 
-⚠️ Folder names must match Chrome’s actual profile folders (e.g., Default, Profile 2).
-Use profiles.py to list existing profiles programmatically.
+⚠️ **Folder names must exactly match Chrome’s actual profile folders (e.g., Default, Profile 1, Profile 2).
+You can run profiles.py to list your existing profiles programmatically.**
 
-▶️ Usage (Development)
-python main.py github.com
+---
+
+## ▶️ Usage (Development)
+Bashpython main.py github.com
 python main.py example.ir
 python main.py google
+Behavior examples:
 
-
-Behavior:
-
-Input	Outcome
-github.com	VPN profile (blocked site)
-example.ir	No-VPN profile (local site)
-google	Google search
-📦 Build EXE (Production)
+InputOutcomegithub.comOpens in VPN profile (blocked)example.irOpens in No-VPN profile (local)googlePerforms Google search
+## 📦 Build EXE (Production)
+```bash
 pip install pyinstaller
 pyinstaller --onefile --noconsole main.py
+Move the generated dist\main.exe to a permanent location, e.g.:
+textC:\SmartBrowser\SmartBrowser.exe
+## 🌍 Set as Default Browser (Windows)
 
+1. Open Settings → Apps → Default apps
+2. Scroll down and click Choose defaults by app
+3. Select SmartBrowser
+4. Assign it to HTTP, HTTPS, .htm, .html
 
-Output:
+Now all web links will automatically route through SmartBrowser.
 
-dist/SmartBrowser.exe
-
-
-Move it to a permanent location:
-
-C:\SmartBrowser\SmartBrowser.exe
-
-🌍 Set as Default Browser (Windows)
-
-Open Settings → Apps → Default Apps
-
-Scroll to Choose defaults by application
-
-Select SmartBrowser
-
-Assign for:
-
-HTTP
-
-HTTPS
-
-.htm
-
-.html
-
-All links now route automatically through SmartBrowser.
-
-🔒 Security & Privacy
+## 🔒 Security & Privacy
 
 No packet inspection or credential access
-
-Uses Chrome’s native profile isolation
-
-VPN / No-VPN state lives in Chrome profiles only
-
-Fully reversible
-
-🧪 Limitations
-
-Chrome profiles cannot share live sessions (by design)
-
-VPN detection is profile-based (manual mapping)
-
-First visit to a domain may take ~0.5s (subsequent visits cached)
-
-🚀 Roadmap (Optional Enhancements)
-
-System tray app with status icon
-
-Auto-start on Windows login
-
-Manual override hotkey (force VPN / No-VPN)
-
-Per-domain pinning
-
-Logging & diagnostics
-
-📜 License
-
-MIT License (or your preferred license)
-
-👤 Author
-
-Soroush Bazgir – Designed for secure and seamless network routing under restricted environments.
-
-🟢 Next Steps After README
-
-Once this README is in place:
-
-git add README.md
-git commit -m "Add polished project README"
-git push
+* Uses Chrome’s native profile isolation
+* VPN / No-VPN state is defined only by your Chrome profiles
+* Fully reversible – just reset default browser to Chrome
 
 
-Then we can move confidently to:
+## 🧪 Limitations
 
-STEP 8 — Set SmartBrowser as the Default Browser on Windows
+* Chrome profiles cannot share live sessions (by design)
+* VPN detection is profile-based (manual mapping in config)
+* First visit to a new domain may take ~0.5s (subsequent visits are cached and instant)
+
+
+## 🚀 Roadmap (Optional Enhancements)
+
+* System tray app with status icon
+* Auto-start on Windows login
+* Manual override hotkey (force VPN / No-VPN)
+* Per-domain pinning
+* Logging & diagnostics
+
+
+## 📜 License
+__MIT License__
+
+## 👤 Author
+Soroush Bazgir – Built for seamless network routing under restricted environments.
