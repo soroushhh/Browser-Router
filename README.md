@@ -84,12 +84,17 @@ PROFILES = {
 ---
 
 ## ▶️ Usage (Development)
-Bashpython main.py github.com
+```Bash
+python main.py github.com
 python main.py example.ir
 python main.py google
-Behavior examples:
+```
+**Behavior examples:**
 
-InputOutcomegithub.comOpens in VPN profile (blocked)example.irOpens in No-VPN profile (local)googlePerforms Google search
+Input,Outcome
+github.com,Opens in VPN profile (blocked)
+example.ir,Opens in No-VPN profile (local)
+google,Performs Google search
 
 ## 🌍 Set as Default Browser (Windows)
 
